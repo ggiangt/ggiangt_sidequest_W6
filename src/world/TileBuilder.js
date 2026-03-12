@@ -55,7 +55,7 @@ export function buildTilesAndGroups(level) {
   level.leaf = new Group();
   level.leaf.physics = "static";
   level.leaf.spriteSheet = level.assets.leafImg;
-  level.leaf.addAnis({ idle: { w: 32, h: 32, row: 0, frames: 5 } });
+  level.leaf.addAnis({ idle: { w: 32, h: 32, row: 0, frames: 6 } });
   level.leaf.w = 10;
   level.leaf.h = 6;
   level.leaf.anis.offset.x = 2;

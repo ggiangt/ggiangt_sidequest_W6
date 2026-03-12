@@ -265,7 +265,7 @@ export class PlayerEntity {
     }
 
     if (this.knockTimer > 0 || this.pendingDeath) {
-      this._setAniFrame("hurtPose", 1);
+      this._setAniFrame("hurtPose", 0);
       return;
     }
 

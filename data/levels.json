@@ -3,7 +3,7 @@
   "levels": [
     {
       "id": "ex5_level1",
-      "name": "Example 5 Level",
+      "name": "Swamp Level",
 
       "tiles": {
         "tileW": 24,
@@ -13,18 +13,18 @@
       },
 
       "tilemap": [
-        "                    g   g   b  x        ",
-        "                b x         LggR        ",
-        "      x   f     LggR                    ",
-        "     LR   LgR          LR               ",
-        "   fx  b        x   b                   ",
-        "   LgggR   x   LR   LgR x   b  xf       ",
-        "         LgR  b x       g   LggggR      ",
-        " fx           LgR                    fx ",
-        " LgR      b                         LggR",
-        "         LgR        f x    LR  LgR  [dd]",
-        "   x     [d]      x LggR   x    ff  [dd]",
-        "LgggRffLggggggRfffLgggg]fffgfLgggggggggg",
+        "        x                x              ",
+        "   x              x              x      ",
+        "  LgggR         LgggR       LggggR      ",
+        "        b    x       b    b         x   ",
+        "  x  LggR    LgR  LgggR LgR    LggR  x  ",
+        "  x      b            b      x       b  ",
+        "LgggR  LggR  x LggggR  x LgggR    LggR  ",
+        "   b      x    b    b       b    x      ",
+        "  LgR  LgggR LggR  LgggR LggR   LgggR   ",
+        "  LgR    LgggR  [ddd]  LggR   LgggR     ",
+        "  ddd    ddddd  [ddd]  dddd   ddddd     ",
+        "LgggggggRffLggggggggRfffLggggggggggggggg",
         "dddddddddddddddddddddddddddddddddddddddd"
       ],
 
@@ -39,13 +39,13 @@
       "view": {
         "w": 240,
         "h": 192,
-        "background": [69, 61, 79],
+        "background": [35, 42, 38],
         "cameraLerp": 0.1,
 
         "parallax": [
-          { "img": "assets/background_layer_1.png", "speed": 0.2 },
-          { "img": "assets/background_layer_2.png", "speed": 0.4 },
-          { "img": "assets/background_layer_3.png", "speed": 0.6 }
+          { "img": "assets/swamp_bg_far.png",  "speed": 0.1 },
+          { "img": "assets/swamp_bg_mid.png",  "speed": 0.3 },
+          { "img": "assets/swamp_bg_near.png", "speed": 0.5 }
         ]
       },
 

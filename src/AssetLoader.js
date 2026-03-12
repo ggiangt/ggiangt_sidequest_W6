@@ -20,17 +20,17 @@ export async function loadAssets(levelPkg, tuningDoc) {
   // IMPORTANT:
   // loadImage() is "preload-safe" only if p5 is actually tracking it inside preload().
   // To make this robust even if your boot flow uses async/await, we wrap loadImage in a Promise.
-  const playerImg = await loadImageAsync("assets/foxSpriteSheet.png");
-  const boarImg = await loadImageAsync("assets/boarSpriteSheet.png");
-  const leafImg = await loadImageAsync("assets/leafSpriteSheet.png");
+  const playerImg = await loadImageAsync("assets/player_Idle.png");
+  const boarImg = await loadImageAsync("assets/enemy_Run.png");
+  const leafImg = await loadImageAsync("assets/leaf_Owlet_Walk.png");
   const fireImg = await loadImageAsync("assets/fireSpriteSheet.png");
 
-  const groundTileImg = await loadImageAsync("assets/groundTile.png");
-  const groundTileDeepImg = await loadImageAsync("assets/groundTileDeep.png");
-  const platformLCImg = await loadImageAsync("assets/platformLC.png");
-  const platformRCImg = await loadImageAsync("assets/platformRC.png");
-  const wallLImg = await loadImageAsync("assets/wallL.png");
-  const wallRImg = await loadImageAsync("assets/wallR.png");
+  const groundTileImg = await loadImageAsync("assets/swamp_ground.png");
+  const groundTileDeepImg = await loadImageAsync("assets/swamp_ground_deep.png");
+  const platformLCImg = await loadImageAsync("assets/swamp_platform_l.png");
+  const platformRCImg = await loadImageAsync("assets/swamp_platform_r.png");
+  const wallLImg = await loadImageAsync("assets/swamp_wall_l.png");
+  const wallRImg = await loadImageAsync("assets/swamp_wall_r.png");
 
   const fontImg = await loadImageAsync("assets/bitmapFont.png");
 
@@ -42,13 +42,11 @@ export async function loadAssets(levelPkg, tuningDoc) {
   // ---- anis ----
   // Prefer tuning-driven animations if present, else fallback to monolith defaults.
   // ALSO: inject a spriteSheet reference by default so addAnis never tries to load "undefined".
-  let playerAnis = buildAnis(tuningDoc?.player?.animations, defaultPlayerAnis(), {
-    spriteSheet: playerImg,
-  });
+  // Each player animation has its own img, so no global spriteSheet injection needed.
+  let playerAnis = buildAnis(tuningDoc?.player?.animations, defaultPlayerAnis(), {});
 
-  let boarAnis = buildAnis(tuningDoc?.boar?.animations, defaultBoarAnis(), {
-    spriteSheet: boarImg,
-  });
+  // Each enemy animation has its own img, so no global spriteSheet injection needed.
+  let boarAnis = buildAnis(tuningDoc?.boar?.animations, defaultBoarAnis(), {});
 
   // If tuning.json uses per-animation "img" fields (strings), preload them here and replace with p5.Images.
   // This prevents runtime XHRs and avoids /undefined crashes.
@@ -129,23 +127,42 @@ function buildAnis(tuningAnis, fallbackAnis, inject = {}) {
   return out;
 }
 
-// --- fallback anis (from your monolith) ---
+// --- fallback anis (Converted_Vampire sprite sheets) ---
 function defaultPlayerAnis() {
   return {
-    idle: { row: 0, frames: 4, frameDelay: 10 },
-    run: { row: 1, frames: 4, frameDelay: 3 },
-    jump: { row: 2, frames: 3, frameDelay: Infinity, frame: 0 },
-    attack: { row: 3, frames: 6, frameDelay: 2 },
-    hurtPose: { row: 5, frames: 4, frameDelay: Infinity },
-    death: { row: 5, frames: 4, frameDelay: 16 },
+    idle:      { img: "assets/player_Idle.png",     frames: 5, frameDelay: 10 },
+    run:       { img: "assets/player_Run.png",      frames: 8, frameDelay: 3  },
+    walk:      { img: "assets/player_Walk.png",     frames: 8, frameDelay: 5  },
+    jump:      { img: "assets/player_Jump.png",     frames: 7, frameDelay: Infinity, frame: 0 },
+    attack:    { img: "assets/player_Attack_1.png", frames: 5, frameDelay: 2  },
+    hurtPose:  { img: "assets/player_Hurt.png",     frames: 1, frameDelay: Infinity, frame: 0 },
+    death:     { img: "assets/player_Dead.png",     frames: 8, frameDelay: 16 },
+    protect:   { img: "assets/player_Protect.png",  frames: 2, frameDelay: 8  },
   };
 }
 
+// --- fallback anis (Vampire_Girl sprite sheets) ---
+// Active AI states:   run | throwPose | death
+// Defined but unused: idle | walk | jump | attack1-4 | bloodCharge1-4 (ready for AI expansion)
 function defaultBoarAnis() {
   return {
-    run: { row: 1, frames: 4, frameDelay: 3 },
-    throwPose: { row: 4, frames: 1, frameDelay: Infinity, frame: 0 },
-    death: { row: 5, frames: 4, frameDelay: 16 },
+    // ---- AI-driven animations ----
+    run:       { img: "assets/enemy_Run.png",  frames: 6, frameDelay: 3 },
+    throwPose: { img: "assets/enemy_Hurt.png", frames: 2, frameDelay: Infinity, frame: 0 },
+    death:     { img: "assets/enemy_Dead.png", frames: 10, frameDelay: 12 },
+
+    // ---- Defined but not yet triggered by AI ----
+    idle:         { img: "assets/enemy_Idle.png",           frames: 5, frameDelay: 10 },
+    walk:         { img: "assets/enemy_Walk.png",           frames: 6, frameDelay: 5  },
+    jump:         { img: "assets/enemy_Jump.png",           frames: 6, frameDelay: Infinity, frame: 0 },
+    attack1:      { img: "assets/enemy_Attack_1.png",       frames: 5, frameDelay: 2  },
+    attack2:      { img: "assets/enemy_Attack_2.png",       frames: 4, frameDelay: 2  },
+    attack3:      { img: "assets/enemy_Attack_3.png",       frames: 2, frameDelay: 3  },
+    attack4:      { img: "assets/enemy_Attack_4.png",       frames: 5, frameDelay: 2  },
+    bloodCharge1: { img: "assets/enemy_Blood_Charge_1.png", frames: 4, frameDelay: 4  },
+    bloodCharge2: { img: "assets/enemy_Blood_Charge_2.png", frames: 4, frameDelay: 4  },
+    bloodCharge3: { img: "assets/enemy_Blood_Charge_3.png", frames: 4, frameDelay: 4  },
+    bloodCharge4: { img: "assets/enemy_Blood_Charge_4.png", frames: 5, frameDelay: 4  },
   };
 }
 
