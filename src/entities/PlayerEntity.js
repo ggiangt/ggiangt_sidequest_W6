@@ -54,8 +54,8 @@ export class PlayerEntity {
     this.attackHitThisSwing = false;
 
     // tuning defaults
-    this.MOVE_SPEED = Number(this.tuning.player?.moveSpeed ?? 1.5);
-    this.JUMP_STRENGTH = Number(this.tuning.player?.jumpStrength ?? 4.5);
+    this.MOVE_SPEED = Number(this.tuning.player?.move?.speed ?? 1.5);
+    this.JUMP_STRENGTH = Number(this.tuning.player?.jump?.strength ?? 4.5);
 
     this.INVULN_FRAMES = Number(this.tuning.player?.invulnFrames ?? 45);
     this.KNOCK_FRAMES = Number(this.tuning.player?.knockFrames ?? 30);

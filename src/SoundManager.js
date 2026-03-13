@@ -18,13 +18,33 @@
 export class SoundManager {
   constructor() {
     this.sfx = {};
+    this.music = null;
+    this.musicVolume = 0.4;
+    this.sfxVolume = 0.7;
   }
 
   load(name, path) {
     this.sfx[name] = loadSound(path);
   }
 
+  loadMusic(path) {
+    this.music = loadSound(path, () => {
+      this.music.setVolume(this.musicVolume);
+      this.music.loop();
+    });
+  }
+
   play(name) {
-    this.sfx[name]?.play();
+    const s = this.sfx[name];
+    if (!s) return;
+    s.setVolume(this.sfxVolume);
+    s.play();
+  }
+
+  startMusic() {
+    if (this.music && !this.music.isPlaying()) {
+      this.music.setVolume(this.musicVolume);
+      this.music.loop();
+    }
   }
 }

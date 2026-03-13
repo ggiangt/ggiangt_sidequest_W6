@@ -65,6 +65,7 @@ function unlockAudioOnce() {
   if (audioUnlocked) return;
   audioUnlocked = true;
   if (typeof userStartAudio === "function") userStartAudio();
+  soundManager?.startMusic();
 }
 
 // Prevent the browser from stealing keys (space/arrows) for scrolling.
@@ -129,6 +130,23 @@ async function boot() {
   // --- Audio registry ---
   // (AudioContext may still be locked until the user clicks/presses a key.)
   soundManager = new SoundManager();
+
+  // Sound effect assignments:
+  //   jump  → ascent braam (upward cinematic hit matches the player going up)
+  //   hurt  → stab (sharp hit = taking damage)
+  //   hit   → stab (reused for enemy taking damage)
+  //   die   → descent whoosh (falling/fading = death)
+  //   leaf  → riser wildfire (positive upward swell = collecting)
+  //   win   → riser wildfire (same positive feel for level completion)
+  soundManager.load("jump", "assets/sfx/ascent-braam.wav");
+  soundManager.load("hurt", "assets/sfx/stab.wav");
+  soundManager.load("hit",  "assets/sfx/descent-whoosh.wav");
+  soundManager.load("die",  "assets/sfx/descent-whoosh.wav");
+  soundManager.load("leaf", "assets/sfx/riser-wildfire.wav");
+  soundManager.load("win",  "assets/sfx/riser-wildfire.wav");
+
+  // Background music: drum loop plays continuously
+  soundManager.loadMusic("assets/sfx/drum-loop.wav");
 
   // --- Parallax layer defs (VIEW) ---
   const defs = levelPkg.level?.view?.parallax ?? [];
